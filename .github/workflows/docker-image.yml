@@ -1,16 +1,16 @@
-name: Build Docker Image
+name: Build and Push Docker Image to GHCR
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout code
@@ -22,7 +22,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Cache Maven packages
+      - name: Cache Maven dependencies
         uses: actions/cache@v3
         with:
           path: ~/.m2
@@ -30,9 +30,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build with Maven
+      - name: Build Spring Boot JAR
         run: mvn clean package
 
-      - name: Build Docker image
-        run: |
-          docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.actor }}/${{ github.event.repository.name }}:latest
