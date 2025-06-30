@@ -6,7 +6,7 @@ cd reportsmodule
 
 
 export GITHUB_USER=dmitriyvechorko
-export GITHUB_TOKEN=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
+export GITHUB_TOKEN=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
 
 echo "$GITHUB_TOKEN" | docker login ghcr.io --username $GITHUB_USER --password-stdin
 
