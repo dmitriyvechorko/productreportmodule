@@ -5,8 +5,8 @@ git clone https://github.com/dmitriyvechorko/reportsmodule.git
 cd reportsmodule
 
 
-export GITHUB_USER=dmitriyvechorko
-export GITHUB_TOKEN=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
+export GITHUB_USER=ваше_имя_пользователя
+export GITHUB_TOKEN=ваш_токен
 
 echo "$GITHUB_TOKEN" | docker login ghcr.io --username $GITHUB_USER --password-stdin
 
